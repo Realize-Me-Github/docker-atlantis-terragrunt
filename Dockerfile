@@ -1,5 +1,9 @@
 ARG ATLANTIS
+FROM segment/chamber:2 AS chamber
+
 FROM ghcr.io/runatlantis/atlantis:v${ATLANTIS}
+
+COPY --from=chamber /chamber /bin/
 
 RUN apk add \
 	aws-cli \
