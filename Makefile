@@ -6,25 +6,27 @@ endif
 
 DIR = .
 FILE = Dockerfile
-IMAGE = "flaconi/atlantis-terragrunt"
-TAG = latest
+IMAGE = 452220462478.dkr.ecr.us-west-2.amazonaws.com/realize-me/atlantis
 
 # Versions
-ATLANTIS = '0.24.4'
-TERRAFORM = '1.5.4'
-TERRAGRUNT = '0.48.6'
-TERRAGRUNT_ATLANTIS_CONFIG = '1.16.0'
+ATLANTIS = 0.24.4
+TERRAFORM = 1.5.4
+TERRAGRUNT = 0.48.6
+TERRAGRUNT_ATLANTIS_CONFIG = 1.16.0
+
+TAG = $(ATLANTIS)-tf_$(TERRAFORM)-tg_$(TERRAGRUNT)
 
 pull:
 	docker pull $(shell grep FROM Dockerfile | sed 's/^FROM//g' | sed "s/\$${ATLANTIS}/$(ATLANTIS)/g";)
 
 build:
 	docker build \
+		--platform linux/amd64 \
 		--network=host \
-		--build-arg ATLANTIS=$(ATLANTIS) \
-		--build-arg TERRAFORM=$(TERRAFORM) \
-		--build-arg TERRAGRUNT=$(TERRAGRUNT) \
-		--build-arg TERRAGRUNT_ATLANTIS_CONFIG=$(TERRAGRUNT_ATLANTIS_CONFIG) \
+		--build-arg ATLANTIS='$(ATLANTIS)' \
+		--build-arg TERRAFORM='$(TERRAFORM)' \
+		--build-arg TERRAGRUNT='$(TERRAGRUNT)' \
+		--build-arg TERRAGRUNT_ATLANTIS_CONFIG='$(TERRAGRUNT_ATLANTIS_CONFIG)' \
 		-t $(IMAGE) -f $(DIR)/$(FILE) $(DIR)
 
 test:
