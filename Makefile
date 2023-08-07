@@ -6,8 +6,7 @@ endif
 
 DIR = .
 FILE = Dockerfile
-IMAGE = "flaconi/atlantis-terragrunt"
-TAG = latest
+IMAGE = 452220462478.dkr.ecr.us-west-2.amazonaws.com/realize-me/atlantis
 
 # Versions
 ATLANTIS = '0.27.1'
@@ -17,11 +16,14 @@ TERRAGRUNT_ATLANTIS_CONFIG = '1.17.4'
 SOPS = '3.8.1'
 ONE_PASSWORD_CLI = '2.24.0'
 
+TAG = $(ATLANTIS)-tf_$(TERRAFORM)-tg_$(TERRAGRUNT)
+
 pull:
 	docker pull $(shell grep FROM Dockerfile | sed 's/^FROM//g' | sed "s/\$${ATLANTIS}/$(ATLANTIS)/g";)
 
 build:
 	docker build \
+		--platform linux/amd64 \
 		--network=host \
 		--build-arg ATLANTIS=$(ATLANTIS) \
 		--build-arg TERRAFORM=$(TERRAFORM) \
