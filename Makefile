@@ -10,7 +10,7 @@ IMAGE = 452220462478.dkr.ecr.us-west-2.amazonaws.com/realize-me/atlantis
 
 # Versions
 ATLANTIS = 0.24.4
-TERRAFORM = 1.5.4
+TERRAFORM = 1.5.2
 TERRAGRUNT = 0.48.6
 TERRAGRUNT_ATLANTIS_CONFIG = 1.16.0
 
@@ -29,11 +29,14 @@ build:
 		--build-arg TERRAGRUNT_ATLANTIS_CONFIG='$(TERRAGRUNT_ATLANTIS_CONFIG)' \
 		-t $(IMAGE) -f $(DIR)/$(FILE) $(DIR)
 
+sh:
+	docker run -it --platform linux/amd64 --rm --entrypoint sh ${IMAGE}
+
 test:
-	docker run --rm --entrypoint atlantis ${IMAGE} version | grep -E '^atlantis v$(ATLANTIS) '
-	docker run --rm --entrypoint terraform ${IMAGE} --version | grep -E 'v$(TERRAFORM)$$'
-	docker run --rm --entrypoint terragrunt ${IMAGE} --version | grep -E 'v$(TERRAGRUNT)$$'
-	docker run --rm --entrypoint terragrunt-atlantis-config ${IMAGE} version | grep -E "$(TERRAGRUNT_ATLANTIS_CONFIG)$$"
+	docker run --platform linux/amd64 --rm --entrypoint atlantis ${IMAGE} version
+	docker run --platform linux/amd64 --rm --entrypoint terraform ${IMAGE} --version
+	docker run --platform linux/amd64 --rm --entrypoint terragrunt ${IMAGE} --version
+	docker run --platform linux/amd64 --rm --entrypoint terragrunt-atlantis-config ${IMAGE} version
 
 tag:
 	docker tag $(IMAGE) $(IMAGE):$(TAG)
