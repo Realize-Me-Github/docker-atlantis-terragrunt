@@ -11,7 +11,7 @@ IMAGE = 452220462478.dkr.ecr.us-west-2.amazonaws.com/realize-me/atlantis
 # Versions
 ATLANTIS = 0.27.1
 TERRAFORM = 1.5.7
-TERRAGRUNT = 0.55.4
+TERRAGRUNT = 0.54.16
 TERRAGRUNT_ATLANTIS_CONFIG = 1.17.4
 
 TAG = $(ATLANTIS)-tf_$(TERRAFORM)-tg_$(TERRAGRUNT)
