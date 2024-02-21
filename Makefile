@@ -16,7 +16,8 @@ TERRAGRUNT_ATLANTIS_CONFIG = '1.17.4'
 SOPS = '3.8.1'
 ONE_PASSWORD_CLI = '2.24.0'
 
-TAG = $(ATLANTIS)-tf_$(TERRAFORM)-tg_$(TERRAGRUNT)
+TAG_PLACEHOLDER=$(ATLANTIS)-tf_$(TERRAFORM)-tg_$(TERRAGRUNT)
+TAG := $(subst $\',,$(TAG_PLACEHOLDER))
 
 pull:
 	docker pull $(shell grep FROM Dockerfile | sed 's/^FROM//g' | sed "s/\$${ATLANTIS}/$(ATLANTIS)/g";)
