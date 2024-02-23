@@ -17,13 +17,16 @@ For building you can overwrite your desired versions with the following three Ma
 * `TERRAFORM`
 * `TERRAGRUNT`
 * `TERRAGRUNT_ATLANTIS_CONFIG`
+* `SOPS`
+* `ONE_PASSWORD_CLI`
 
+e.g.
 ```
 make build
-make build TERRAFORM=1.5.4
-make build TERRAFORM=1.5.4 TERRAGRUNT=0.48.6
-make build TERRAFORM=1.5.4 TERRAGRUNT=0.48.6 ATLANTIS=0.24.4
-make build TERRAFORM=1.5.4 TERRAGRUNT=0.48.6 ATLANTIS=0.24.4 TERRAGRUNT_ATLANTIS_CONFIG=1.16.0
+make build TERRAFORM=1.7.2
+make build TERRAFORM=1.7.2 TERRAGRUNT=0.55.1
+make build TERRAFORM=1.7.2 TERRAGRUNT=0.55.1 ATLANTIS=0.27.1
+make build TERRAFORM=1.7.2 TERRAGRUNT=0.55.1 ATLANTIS=0.27.1 SOPS=3.8.1
 ```
 
 ## Available images
@@ -54,4 +57,4 @@ flaconi/atlantis-terragrunt:<ATLANTIS_VERSION>-<TERRAFORM_VERSION>-<TERRAGRUNT_V
 
 [MIT](LICENSE)
 
-Copyright (c) 2023 [Flaconi GmbH](https://github.com/Flaconi)
+Copyright (c) 2024 [Flaconi GmbH](https://github.com/Flaconi)

@@ -10,11 +10,14 @@ RUN apk add \
 	aws-cli \
 	curl \
 	make \
-	unzip
+	unzip \
+	yq
 
 ARG TERRAGRUNT
 ARG TERRAFORM
 ARG TERRAGRUNT_ATLANTIS_CONFIG
+ARG SOPS
+ARG ONE_PASSWORD_CLI
 
 ###
 ### Ensure Terraform version is present, linked and validated
@@ -68,5 +71,45 @@ RUN set -eux \
 	&& mv terragrunt-atlantis-config_${TERRAGRUNT_ATLANTIS_CONFIG}_linux_amd64/terragrunt-atlantis-config_${TERRAGRUNT_ATLANTIS_CONFIG}_linux_amd64 terragrunt-atlantis-config \
 	&& chmod +x terragrunt-atlantis-config \
 	&& rm -rf terragrunt-atlantis-config_${TERRAGRUNT_ATLANTIS_CONFIG}_linux_amd64*
+
+###
+### Ensure SOPS version is present and validated
+###
+RUN set -eux \
+	&& if [ "${SOPS}" = "latest" ]; then \
+	SOPS="$( \
+	curl -L -sS --ipv4 https://github.com/getsops/sops/releases \
+	| tac | tac \
+	| grep -Eo '"/getsops/sops/releases/tag/v?[0-9]+\.[0-9]+\.[0-9]+"' \
+	| grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' \
+	| sort -V \
+	| tail -1 \
+	)"; \
+	fi \
+	&& cd /usr/local/bin \
+	&& curl -L -sS --ipv4 "https://github.com/getsops/sops/releases/download/v${SOPS}/sops-v${SOPS}.linux.amd64" -o sops \
+	&& chmod +x sops \
+	&& sops --version --disable-version-check | grep " ${SOPS}"
+
+###
+### Ensure 1Password CLI version is present, linked and validated
+###
+RUN set -eux \
+	&& if [ "${ONE_PASSWORD_CLI}" = "latest" ]; then \
+	ONE_PASSWORD_CLI="$( \
+	curl -sS  https://app-updates.agilebits.com/product_history/CLI2 \
+	| grep -Eo '"/dist/1P/op2/pkg/v?[0-9]+\.[0-9]+\.[0-9]+/op_linux_amd64"' \
+	| grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' \
+	| sort -V \
+	| tail -1 \
+	)"; \
+	fi \
+	&& cd "/tmp" \
+	&& curl -sS "https://cache.agilebits.com/dist/1P/op2/pkg/v${ONE_PASSWORD_CLI}/op_linux_amd64_v${ONE_PASSWORD_CLI}.zip" -o op.zip \
+	&& unzip op.zip \
+	&& rm op.zip \
+	&& chmod +x op \
+	&& mv op /usr/local/bin/op \
+	&& op --version | grep "${ONE_PASSWORD_CLI}"
 
 USER atlantis
