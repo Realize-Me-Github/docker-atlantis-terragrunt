@@ -11,7 +11,7 @@ IMAGE = 452220462478.dkr.ecr.us-west-2.amazonaws.com/realize-me/atlantis
 # Versions
 ATLANTIS = '0.27.1'
 TERRAFORM = '1.7.2'
-TERRAGRUNT = '0.55.4'
+TERRAGRUNT = '0.55.8'
 TERRAGRUNT_ATLANTIS_CONFIG = '1.17.4'
 SOPS = '3.8.1'
 ONE_PASSWORD_CLI = '2.24.0'
