@@ -112,4 +112,6 @@ RUN set -eux \
 	&& mv op /usr/local/bin/op \
 	&& op --version | grep "${ONE_PASSWORD_CLI}"
 
+RUN apk add nodejs-current && corepack enable
+
 USER atlantis
