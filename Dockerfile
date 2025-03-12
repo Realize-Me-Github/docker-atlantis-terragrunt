@@ -64,11 +64,10 @@ RUN set -eux \
 ###
 ### Ensure the Terragrunt Atlantis Config is present
 ###
-ADD https://github.com/transcend-io/terragrunt-atlantis-config/releases/download/v${TERRAGRUNT_ATLANTIS_CONFIG}/terragrunt-atlantis-config_${TERRAGRUNT_ATLANTIS_CONFIG}_linux_amd64.tar.gz /usr/local/bin/
+ADD https://github.com/transcend-io/terragrunt-atlantis-config/releases/download/v${TERRAGRUNT_ATLANTIS_CONFIG}/terragrunt-atlantis-config_${TERRAGRUNT_ATLANTIS_CONFIG}_linux_amd64 /usr/local/bin/
 RUN set -eux \
 	&& cd /usr/local/bin \
-	&& tar xvzf terragrunt-atlantis-config_${TERRAGRUNT_ATLANTIS_CONFIG}_linux_amd64.tar.gz \
-	&& mv terragrunt-atlantis-config_${TERRAGRUNT_ATLANTIS_CONFIG}_linux_amd64/terragrunt-atlantis-config_${TERRAGRUNT_ATLANTIS_CONFIG}_linux_amd64 terragrunt-atlantis-config \
+	&& mv terragrunt-atlantis-config_${TERRAGRUNT_ATLANTIS_CONFIG}_linux_amd64 terragrunt-atlantis-config \
 	&& chmod +x terragrunt-atlantis-config \
 	&& rm -rf terragrunt-atlantis-config_${TERRAGRUNT_ATLANTIS_CONFIG}_linux_amd64*
 
